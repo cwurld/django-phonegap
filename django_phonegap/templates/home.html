@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 id="header">Django-Phonegap</h1>
+
+    <ul>
+        <li><a href="{% url 'create_message' %}">Test Locally</a></li>
+        <li><a href="{% url 'list_messages' %}">Message List</a></li>
+    </ul>
+{% endblock %}

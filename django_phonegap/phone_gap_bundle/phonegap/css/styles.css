@@ -1,0 +1,78 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    background: url(../images/bg.png) repeat left top;
+    font-family: source-sans-pro, sans-serif;
+}
+
+#container {
+    width: 300px;
+}
+
+
+#header {
+    margin: 10px;
+    padding: 0px;
+    font-weight: 100;
+    border-bottom: black double;
+}
+
+
+#main_panel {
+    padding: 0px 10px 10px 10px;
+}
+
+
+textarea {
+    width: 97%;
+}
+
+
+#message_form p{
+    margin: 5px 0px 5px 0px;
+}
+
+
+#online_control {
+    border: thin black solid;
+    background-color: white;
+    padding: 10px;
+    margin: 50px 10px 0px 10px;
+    font-size: 12px;
+    max-width: 400px;
+}
+
+
+#online_control p {
+    margin: 0px;
+}
+
+
+/* Use placeholders instead of labels */
+#message_form label {
+    display: none;
+}
+
+
+#login_form h3{
+    margin: 3px 0px 3px 0px;
+    font-weight: 100;
+}
+
+
+th,
+td{
+    padding: 1px 40px 1px 0px;
+    text-align: left;
+}
+
+.error_box {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #A75B4E;
+    border-radius: 5px;
+    color: red;
+    display: none;
+    font-size: 13px;
+    margin: 0 0 15px;
+    padding: 8px;
+}

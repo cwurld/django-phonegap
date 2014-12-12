@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 id="header">ROI Technologies</h1>
+    <div id="main_panel"></div>
+    {% if not IS_PHONEGAP %}
+        <div id="online_control">
+            <p>
+                This button simulates a network connection being made or
+                being lost.
+            </p>
+            <button id="online_toggle">Connect</button>
+        </div>
+    {% endif %}
+
+    <script id="login-template" type="text/x-handlebars-template">
+        <form id="login_form">
+            <h3>Please sign in</h3>
+            <input type="text" placeholder="Username" required autofocus id="username">
+            <input type="password" placeholder="Password" required id="password"><br>
+            <input type="submit" name="submit" id="submit_btn" value="Sign In" />
+        </form>
+    </script>
+
+    <script id="message-template" type="text/x-handlebars-template">
+        <div class="error_box"></div>
+        <form id="message_form" name="message_form" action="." method="post">
+            {{ form.as_p }}
+            <input type="submit" name="submit" id="submit_btn" value="Save" /></td>
+        </form>
+    </script>
+
+    <script id="message-saved-template" type="text/x-handlebars-template">
+        <p>Your message was saved.</p>
+    </script>
+{% endblock %}
+
+{% block js %}
+    {% if IS_PHONEGAP %}
+    <script src="phonegap.js"></script>
+    {% endif %}
+
+    <script src="{{ STATIC_URL }}phonegap/lib/jquery-1.10.2.min.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/lib/handlebars.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/lib/iscroll.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/lib/validate.min.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/js/phone_connection.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/js/message_manager.js"></script>
+    <script src="{{ STATIC_URL }}phonegap/js/get_access_token.js"></script>
+
+    <script type="text/javascript">
+        function onDeviceReady() {
+            phone_connection = make_phone_connection();
+            get_access_token = make_get_access_token('{{ LAN_IP_ADDRESS|default:"http://127.0.0.1:8000"}}/api-token-auth/', phone_connection);
+            message_manager = make_message_manager('{{ LAN_IP_ADDRESS|default:"http://127.0.0.1:8000"}}{% url "create_rest_message" %}',
+                                                   phone_connection, get_access_token);
+            get_access_token.get_token(message_manager.load_page_callback, message_manager.load_page_callback);
+            document.addEventListener("online", message_manager.post_one, false);
+        }
+
+    {% if IS_PHONEGAP %}
+        document.addEventListener("deviceready", onDeviceReady, false);
+    {% else %}
+        onDeviceReady();
+        phone_connection.set_on_connection(message_manager.post_one);
+        var el = document.getElementById("online_toggle");
+        el.addEventListener('click', phone_connection.toggle_pseudo_is_connected);
+    {% endif %}
+
+
+    var form_callback = function(errors, evt){
+        var SELECTOR_ERRORS = $('.error_box');
+
+        if (errors.length > 0) {
+            SELECTOR_ERRORS.empty();
+            for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
+                SELECTOR_ERRORS.append(errors[i].message + '<br />');
+            }
+            SELECTOR_ERRORS.fadeIn(200);
+        } else {
+            message_manager.save_message(evt);
+        }
+    };
+
+
+    $( document ).ready(function() {
+        var validator = new FormValidator('message_form',
+           [
+                {name: 'message',
+                rules: 'required'},
+
+                {name: 'priority',
+                rules: 'required'}
+           ], form_callback);
+      });
+    </script>
+{% endblock %}
+</body>
+</html>

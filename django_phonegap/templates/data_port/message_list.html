@@ -1,0 +1,48 @@
+{%  extends "base.html" %}
+
+{% block css %}
+    <style type="text/css">
+        #container{ width:600px;}
+        h2{margin: 0px;}
+        p{margin: 0px;}
+        table{margin-top: 10px;}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1 id="header">Django-Phonegap</h1>
+    <div id="main_panel">
+        <h2>Message List</h2>
+
+        <!--Could do this with Ajax. But its not worth the effort for a demo-->
+        <p>Refreshes every 3 seconds.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Priority</th>
+                    <th>Who</th>
+                    <th>When</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for message in object_list %}
+                    <tr>
+                        <td>{{ message.message }}</td>
+                        <td>{{ message.priority }}</td>
+                        <td>{{ message.user.username }}</td>
+                        <td>{{ message.received }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{%  endblock %}
+
+{% block js %}
+    <script>
+        setTimeout("window.location.reload(true);", 3000);
+    </script>
+{% endblock %}

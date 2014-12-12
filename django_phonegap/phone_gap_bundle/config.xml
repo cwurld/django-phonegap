@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns       = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "net.roitechnoloiges.test1"
+        versionCode = "10"
+        version     = "1.1.0">
+
+    <name>ROI Tech</name>
+
+    <description>
+        A test
+    </description>
+
+    <preference name="orienation" value="landscape" />
+
+    <author href="http://roitechnologies.net" email="">
+        Chuck Martin
+    </author>
+
+    <feature name="http://api.phonegap.com/1.0/console"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+
+</widget>
